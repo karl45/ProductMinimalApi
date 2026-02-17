@@ -6,3 +6,5 @@ For example:
 }
 
 it means you need create variable with name OIDC__Server and etc.
+
+this Project is server for https://github.com/karl45/market
