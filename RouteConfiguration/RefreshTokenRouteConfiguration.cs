@@ -34,7 +34,7 @@ namespace LoginProductMinimalApi.RouteConfiguration
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.None,
-                Expires = DateTimeOffset.UtcNow.AddDays(7)
+                Expires = DateTimeOffset.UtcNow.AddHours(1)
             });
 
 
