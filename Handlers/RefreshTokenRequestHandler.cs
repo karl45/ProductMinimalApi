@@ -60,7 +60,7 @@ namespace LoginProductMinimalApi.Handlers
                 audience: _configuration["OIDC:Audience"],
                 claims: claims,
                 notBefore: DateTime.UtcNow,
-                expires: DateTime.UtcNow.AddSeconds(10),
+                expires: DateTime.UtcNow.AddMinutes(30),
                 signingCredentials: signingCrednetials
                 );
 

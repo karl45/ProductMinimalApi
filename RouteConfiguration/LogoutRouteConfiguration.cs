@@ -19,7 +19,7 @@ namespace LoginProductMinimalApi.RouteConfiguration
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.None,
-                Expires = DateTimeOffset.UtcNow.AddSeconds(10)
+                Expires = DateTimeOffset.UtcNow.AddMinutes(30)
 
             });
             return Results.Ok(new { message = "Logged out successfully" });
