@@ -22,6 +22,15 @@ namespace LoginProductMinimalApi.RouteConfiguration
                 Expires = DateTimeOffset.UtcNow.AddMinutes(30)
 
             });
+
+            response.Cookies.Delete("refresh_token", new CookieOptions()
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTimeOffset.UtcNow.AddHours(1)
+
+            });
             return Results.Ok(new { message = "Logged out successfully" });
         }
     }
