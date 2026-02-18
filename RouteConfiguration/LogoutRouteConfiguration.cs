@@ -7,7 +7,8 @@ namespace LoginProductMinimalApi.RouteConfiguration
         public void ConfigureEndPoints(WebApplication webApplication)
         {
             var logout = webApplication.MapGroup("/logout");
-            logout.MapPost("/", Logout);
+            logout.MapPost("/", Logout)
+                .RequireAuthorization();
         }
 
         public async Task<IResult> Logout(HttpResponse response, IAntiforgery antiforgery, HttpContext httpContext)
