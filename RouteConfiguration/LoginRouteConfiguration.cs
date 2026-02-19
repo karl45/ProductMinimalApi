@@ -11,7 +11,7 @@ namespace LoginProductMinimalApi.RouteConfiguration
             login.MapPost("/", Login);
         }
 
-        public async Task<IResult> Login(IMediator mediator, LoginRequestModel model, HttpContext httpContext)
+        public async Task<IResult> Login(IMediator mediator, LoginRequest model, HttpContext httpContext)
         {
             var response = await mediator.Send(model);
             if (response == null)

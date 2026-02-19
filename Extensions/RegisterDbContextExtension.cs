@@ -1,5 +1,5 @@
 ﻿using LoginProductMinimalApi.DbClient;
-using LoginProductMinimalApi.Repositories.LoginRepository;
+using LoginProductMinimalApi.Repositories.UserRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace LoginProductMinimalApi.Extensions
@@ -10,12 +10,12 @@ namespace LoginProductMinimalApi.Extensions
         {
             var connection_string = webApplicationBuilder.Configuration["PGSQL:ConnectionString"];
 
-            webApplicationBuilder.Services.AddDbContext<LoginProductDbContext>(opt =>
+            webApplicationBuilder.Services.AddDbContext<UserProductDbContext>(opt =>
             {
                 opt.UseNpgsql(connection_string);
             });
 
-            webApplicationBuilder.Services.AddScoped<ILoginRepository, LoginRepository>();
+            webApplicationBuilder.Services.AddScoped<IUserRepository, UserRepository>();
 
         }
     }

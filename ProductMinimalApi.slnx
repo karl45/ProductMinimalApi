@@ -1,4 +1,4 @@
 <Solution>
-  <Project Path="../OrderProductMinimalApi/OrderProductMinimalApi.csproj" Id="0b031705-960e-4089-a92a-1f96cada9676" />
+  <Project Path="../OrderProductMinimalApi/CreateProductMinimalApi.csproj" Id="0b031705-960e-4089-a92a-1f96cada9676" />
   <Project Path="LoginProductMinimalApi.csproj" />
 </Solution>

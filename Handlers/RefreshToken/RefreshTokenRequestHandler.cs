@@ -1,5 +1,5 @@
 ﻿using LoginProductMinimalApi.Entities;
-using LoginProductMinimalApi.Repositories.LoginRepository;
+using LoginProductMinimalApi.Repositories.UserRepository;
 using LoginProductMinimalApi.RequestModels;
 using LoginProductMinimalApi.ResponseModels;
 using Microsoft.IdentityModel.Tokens;
@@ -7,14 +7,14 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
-namespace LoginProductMinimalApi.Handlers
+namespace LoginProductMinimalApi.Handlers.RefreshToken
 {
     public class RefreshTokenRequestHandler : BaseRequestHandler<RefreshTokenRequest, RefreshTokenResponse>
     {
-        private readonly ILoginRepository _loginRepository;
+        private readonly IUserRepository _loginRepository;
         private readonly IConfiguration _configuration;
 
-        public RefreshTokenRequestHandler(ILoginRepository loginRepository, IConfiguration configuration)
+        public RefreshTokenRequestHandler(IUserRepository loginRepository, IConfiguration configuration)
         {
             _loginRepository = loginRepository;
             _configuration = configuration;
@@ -22,7 +22,7 @@ namespace LoginProductMinimalApi.Handlers
 
         protected override async Task<RefreshTokenResponse> HandleInternal(RefreshTokenRequest request, CancellationToken cancellationToken)
         {
-            var client = await _loginRepository.GetClientByRefreshToken(request.RefreshToken, cancellationToken);
+            var client = await _loginRepository.GetUserByRefreshToken(request.RefreshToken, cancellationToken);
             if (client == null) { 
                 return new RefreshTokenResponse { Token = string.Empty};
             }
@@ -31,13 +31,13 @@ namespace LoginProductMinimalApi.Handlers
 
             client.RefreshToken = Guid.NewGuid().ToString();
 
-            await _loginRepository.UpdateClientRefreshToken(client, cancellationToken);
+            await _loginRepository.UpdateUser(client, cancellationToken);
 
             return new RefreshTokenResponse { Token = newToken, RefreshToken = client.RefreshToken!,  };
 
         }
 
-        private string GenerateNewToken(Client client, string kid)
+        private string GenerateNewToken(User client, string kid)
         {
             string privateKeyPem = File.ReadAllText(_configuration["Private:Key"]!);
 

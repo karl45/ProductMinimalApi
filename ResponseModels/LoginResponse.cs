@@ -1,6 +1,6 @@
 ﻿namespace LoginProductMinimalApi.ResponseModels
 {
-    public class LoginResponseModel
+    public class LoginResponse
     {
         public required string Token { set; get; }
 

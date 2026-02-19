@@ -1,6 +1,6 @@
 ﻿using LoginProductMinimalApi.Entities;
 using LoginProductMinimalApi.Models;
-using LoginProductMinimalApi.Repositories.LoginRepository;
+using LoginProductMinimalApi.Repositories.UserRepository;
 using LoginProductMinimalApi.ResponseModels;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,24 +8,30 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace LoginProductMinimalApi.Handlers
+namespace LoginProductMinimalApi.Handlers.Login
 {
-    public class LoginRequestHandler : BaseRequestHandler<LoginRequestModel, LoginResponseModel>
+    public class LoginRequestHandler : BaseRequestHandler<LoginRequest, LoginResponse>
     {
-        private readonly ILoginRepository _loginRepository;
+        private readonly IUserRepository _loginRepository;
         private readonly IConfiguration _configuration;
 
-        public LoginRequestHandler(IConfiguration configuration, ILoginRepository loginRepository)
+        public LoginRequestHandler(IConfiguration configuration, IUserRepository loginRepository)
         {
             _configuration = configuration;
             _loginRepository = loginRepository;
         }
 
-        protected override async Task<LoginResponseModel?> HandleInternal(LoginRequestModel request, CancellationToken cancellationToken)
+        protected override async Task<LoginResponse?> HandleInternal(LoginRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var user = await _loginRepository.Authorize(request.UserName, request.Password, cancellationToken);
+                var requestUser = new User()
+                {
+                    UserName = request.UserName,
+                    Password = request.Password
+                };
+
+                var user = await _loginRepository.GetUser(requestUser, cancellationToken);
                 if (user == null)
                 {
 
@@ -44,9 +50,9 @@ namespace LoginProductMinimalApi.Handlers
                 var token = GenerateToken(user, kid);
 
                 user.RefreshToken = Guid.NewGuid().ToString();
-                await _loginRepository.UpdateClientRefreshToken(user, cancellationToken);
+                await _loginRepository.UpdateUser(user, cancellationToken);
 
-                return new LoginResponseModel()
+                return new LoginResponse()
                 {
                     CsrfToken = "",
                     Token = token,
@@ -61,7 +67,7 @@ namespace LoginProductMinimalApi.Handlers
             
         }
 
-        private string GenerateToken(Client client, string kid)
+        private string GenerateToken(User client, string kid)
         {
             string privateKeyPem = File.ReadAllText(_configuration["Private:Key"]!);
 

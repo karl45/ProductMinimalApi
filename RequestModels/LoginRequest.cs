@@ -3,7 +3,7 @@ using MediatR;
 
 namespace LoginProductMinimalApi.Models
 {
-    public class LoginRequestModel: IRequest<LoginResponseModel>
+    public class LoginRequest: IRequest<LoginResponse>
     {
 
         public required string UserName { set; get; }

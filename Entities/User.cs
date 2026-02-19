@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LoginProductMinimalApi.Entities
 {
-    public class Client
+    public class User
     {
         [Key]
         public Guid Id { get; set; }
@@ -13,8 +14,14 @@ namespace LoginProductMinimalApi.Entities
         [Required]
         public required string Password { set; get; }
 
-        public required string RefreshToken { get; set; }
+        public DateTime? BirthDate { set; get; }
+
+        public string? RefreshToken { get; set; }
+
+        public DateTime? BlockedTime { set; get; }
 
         public DateTime CreatedAt { get; set; }
+
+        public ICollection<UserRole> Roles { get; set; } = new List<UserRole>();
     }
 }

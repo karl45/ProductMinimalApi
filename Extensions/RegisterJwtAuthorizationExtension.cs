@@ -30,8 +30,8 @@ namespace LoginProductMinimalApi.Extensions
                         ValidateAudience = true,               // проверяем для кого токен
                         ValidateLifetime = true,               // проверяем срок действия
                         ValidateIssuerSigningKey = true,       // проверяем подпись
-                        ValidIssuer = oidcIssuer, // твой issuer
-                        ValidAudience = oidcAudience,          // твой audience / clientId
+                        ValidIssuer = oidcIssuer, // issuer
+                        ValidAudience = oidcAudience,          // audience / clientId
                         IssuerSigningKey = new RsaSecurityKey(rsa)   // публичный ключ RSA для проверки подписи
                     };
 
