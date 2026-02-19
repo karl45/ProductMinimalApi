@@ -1,4 +1,7 @@
-First of all you should add system environment files which you can find in config
+First of all, you should create public and private key and write path in the config through system environment variable, because projects use two-factor authentication.
+
+
+After, you should add system environment files which you can find in config
 
 For example:
 "OIDC":{
